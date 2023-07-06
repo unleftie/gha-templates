@@ -1,0 +1,32 @@
+name: Ansible Molecule
+description: Molecule project is designed to aid in the development and testing of Ansible roles
+
+inputs:
+  gha_token:
+    description: GHA token
+    required: true
+  role_name:
+    description: GHA token
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.*"
+
+    - name: Install dependencies
+      run: "python3 -m pip install ansible molecule molecule-plugins[docker] docker jmespath"
+      shell: bash
+
+    - name: Run Molecule
+      run: "molecule test"
+      shell: bash
+      env:
+        PY_COLORS: "1"
+        ANSIBLE_FORCE_COLOR: "1"
+        MOLECULE_DISTRO: "debian12"
+        ROLE_NAME: ${{ inputs.role_name }}
+        GHA_TOKEN: ${{ inputs.gha_token }}

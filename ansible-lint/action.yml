@@ -1,0 +1,24 @@
+name: Ansible Lint
+description: Ansible linter is designed to catch errors in data before a file is processed
+
+inputs:
+  path:
+    description: Path to scan
+    required: false
+    default: "."
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.*"
+
+    - name: Install dependencies
+      run: "python3 -m pip install ansible-lint"
+      shell: bash
+
+    - name: Lint code
+      run: "ansible-lint ${{ inputs.path }}"
+      shell: bash
