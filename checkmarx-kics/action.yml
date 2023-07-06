@@ -1,0 +1,34 @@
+name: Checkmarx KICS
+description: Static code scan of IaC
+
+inputs:
+  path:
+    description: Path to scan
+    required: false
+    default: ""
+  uploadReport:
+    description: Upload report for CodeQL/Security Alerts
+    required: false
+    default: false
+
+runs:
+  using: composite
+  steps:
+    - name: Run KICS
+      uses: checkmarx/kics-github-action@v1.7.0
+      with:
+        path: "${{ inputs.path }}"
+        fail_on: high
+        output_formats: "json,sarif"
+      continue-on-error: true
+
+    - name: Display report
+      run: |
+        cat results.json
+      shell: bash
+
+    - name: Upload report for CodeQL/Security Alerts
+      if: ${{ inputs.uploadReport }} == true
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: results.sarif
