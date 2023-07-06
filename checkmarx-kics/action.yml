@@ -6,15 +6,11 @@ inputs:
     description: Path to scan
     required: false
     default: ""
-  uploadReport:
-    description: Upload report for CodeQL/Security Alerts
-    required: false
-    default: false
 
 runs:
   using: composite
   steps:
-    - name: Run KICS
+    - name: Run KICS scan
       uses: checkmarx/kics-github-action@v1.7.0
       with:
         path: "${{ inputs.path }}"
@@ -26,9 +22,3 @@ runs:
       run: |
         cat results.json
       shell: bash
-
-    - name: Upload report for CodeQL/Security Alerts
-      if: ${{ inputs.uploadReport }} == true
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: results.sarif
