@@ -6,8 +6,12 @@ inputs:
     description: GHA token
     required: true
   role_name:
-    description: GHA token
+    description: Ansible role name
     required: true
+  distro:
+    description: Linux distribution
+    required: false
+    default: "debian12"
 
 runs:
   using: composite
@@ -27,6 +31,6 @@ runs:
       env:
         PY_COLORS: "1"
         ANSIBLE_FORCE_COLOR: "1"
-        MOLECULE_DISTRO: "debian12"
+        MOLECULE_DISTRO: ${{ inputs.distro }}
         ROLE_NAME: ${{ inputs.role_name }}
         GHA_TOKEN: ${{ inputs.gha_token }}
