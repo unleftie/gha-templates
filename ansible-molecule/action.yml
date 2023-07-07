@@ -33,4 +33,4 @@ runs:
         ANSIBLE_FORCE_COLOR: "1"
         MOLECULE_DISTRO: ${{ inputs.distro }}
         ROLE_NAME: ${{ inputs.role_name }}
-        GITHUB_TOKEN: ${{ inputs.github_token }}
+        GHA_TOKEN: ${{ inputs.github_token }}
