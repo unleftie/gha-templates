@@ -12,6 +12,10 @@ inputs:
     description: Linux distribution
     required: false
     default: "debian12"
+  working_directory:
+    description: Working directory
+    required: false
+    default: "."
 
 runs:
   using: composite
@@ -27,6 +31,7 @@ runs:
 
     - name: Run Molecule
       run: "molecule test"
+      working-directory: ${{ inputs.working_directory }}
       shell: bash
       env:
         PY_COLORS: "1"
