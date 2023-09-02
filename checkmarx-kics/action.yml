@@ -24,6 +24,6 @@ runs:
       shell: bash
 
     - name: Upload to code-scanning
-      uses: github/codeql-action/upload-sarif@v1
+      uses: github/codeql-action/upload-sarif@00e563ead9f72a8461b24876bee2d0c2e8bd2ee8 # v2.21.5
       with:
         sarif_file: results.sarif
