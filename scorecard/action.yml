@@ -1,27 +1,20 @@
-name: Checkmarx KICS
-description: Static code scan of IaC
-
-inputs:
-  path:
-    description: Path to scan
-    required: false
-    default: ""
+name: Scorecard
+description: Scorecard supply-chain security
 
 runs:
   using: composite
   steps:
-    - name: Run KICS scan
-      uses: checkmarx/kics-github-action@v1.7.0
+    - name: Run analysis
+      uses: ossf/scorecard-action@08b4669551908b1024bb425080c797723083c031 # v2.2.0
       with:
-        path: "${{ inputs.path }}"
-        fail_on: high
-        output_formats: "json,sarif"
-      continue-on-error: true
+        results_file: results.sarif
+        results_format: sarif
+        publish_results: true
 
     - name: Upload artifact
       uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
       with:
-        name: checkmarx_kics_result_files
+        name: scorecard_result_files
         path: results.*
         retention-days: 5
 
